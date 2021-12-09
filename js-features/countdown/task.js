@@ -1,5 +1,5 @@
 let initialValue = document.getElementById('timer');
-initialValue.oneclick = function () {
+initialValue.onclick = function () {
     if (initialValue.textContent > 0) {
         initialValue.textContent -= 1;
     }
@@ -7,4 +7,4 @@ initialValue.oneclick = function () {
         alert ('Вы победили в конкурсе!')
     }
 }
-setInterval(initialValue.oneclick, 1000);
+setInterval(initialValue.onclick, 1000);
