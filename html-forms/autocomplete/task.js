@@ -40,7 +40,7 @@ class Autocomplete {
     });
   }
 
-  onSelect( item ) {
+  onSelect(item) {
     this.input.selectedIndex = item.index;
     this.valueElement.textContent = item.text;
 
@@ -51,10 +51,10 @@ class Autocomplete {
   onSearch() {
     const matches = this.getMatches( this.searchInput.value );
 
-    this.renderMatches( matches );
+    this.renderMatches(matches);
   }
 
-  renderMatches( matches ) {
+  renderMatches(matches) {
     const html = matches.map( item => `
     	<li>
         <span class="autocomplete__item"
@@ -67,26 +67,20 @@ class Autocomplete {
     this.list.innerHTML = html.join('');
   }
 
-  getMatches( text ) {
-    /*
-      TODO: этот метод нужно дописать
-      text - фраза, которую вводят в поле поиска
-      Метод должен вернуть массив.
+  getMatches(text) {
+    const options = [...this.input.options];
+    const finalOptions = [];
 
-      Он формируется на основе списка опций select-элемента (this.input)
-      Подходящие опции - те, чей текст содержит то, что есть в аргументе text
-      Необходимо вернуть массив объектов со свойствами:
-      {
-        text: 'Содержимое <option>',
-        value: 'Содержимое атрибута value'
+    options.forEach((opt) => {
+      if (opt.text.includes(text)) {
+        finalOptions.push({
+          text: opt.text,
+          value: opt.value
+        });
       }
-    */
-    return [
-      {
-        text: 'Чубакка',
-        value: '1'
-      }
-    ];
+    });
+    
+    return finalOptions;
   }
 }
 
