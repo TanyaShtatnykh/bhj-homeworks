@@ -1,25 +1,20 @@
 const tooltipLinks = [...document.querySelectorAll('.has-tooltip')];
-let tooltip = document.querySelector('.tooltip');
+let tooltip = document.createElement('div');
+tooltip.classList.add('tooltip');
 
 tooltipLinks.forEach((tooltipLink) => {
-    function createTooltip() {
-        if (!tooltip) {
-            tooltip = document.createElement('div');
-            tooltip.className = 'tooltip tooltip_active';
-            tooltipLink.appendChild(tooltip);
-
-        }
-        return tooltip;
-    }
-
+    tooltipLink.appendChild(tooltip);
+    
     tooltipLink.addEventListener('click', (event) => {
         event.preventDefault();
-        
-        let target = event.target;
-        
-        tooltip = createTooltip();
-        tooltip.style.top = `${tooltipLink.getBoundingClientRect().bottom}px`;
-        tooltip.style.left = `${tooltipLink.getBoundingClientRect().left}px`;
-        tooltip.innerHTML = target.title;
-    })
+               
+        if (tooltip.innerText === event.target.title) {
+            tooltip.classList.toggle('tooltip_active');
+        } else {
+            tooltip.classList.add('tooltip_active');
+            tooltip.style.top = `${tooltipLink.getBoundingClientRect().bottom}px`;
+            tooltip.style.left = `${tooltipLink.getBoundingClientRect().left}px`;
+            tooltip.innerHTML = event.target.title;
+        } 
+    });
 });
