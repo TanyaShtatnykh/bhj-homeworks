@@ -1,7 +1,7 @@
 const quantityBut = [...document.querySelectorAll('.product__quantity-control')];
 const cartBut = [...document.querySelectorAll('.product__add')];
 let cartProducts = document.querySelector('.cart__products');
-let cartProduct = [...document.querySelectorAll('.cart__product')];
+let cartProduct = cartProducts.getElementsByClassName('cart__product');
 
 quantityBut.forEach((butForChange) => {
     butForChange.addEventListener('click', (e) => {
@@ -21,21 +21,21 @@ quantityBut.forEach((butForChange) => {
 cartBut.forEach((butForAdd) => {
     butForAdd.addEventListener('click', (event) => {
         const product = event.target.closest('.product');
-        const productImage = product.querySelector('.product__image').src;
         const prodId = product.dataset.id;
+        const productImage = product.querySelector('.product__image').src;
         const prodQuant = product.querySelector('.product__quantity-value').innerText;
-        let cartProd = cartProduct.find(elem => elem.dataset.id == prodId);
+        const newProduct = `
+            <div class="cart__product" data-id="${prodId}">
+                <img class="cart__product-image" src="${productImage}">
+                <div class="cart__product-count">${prodQuant}</div>
+            </div>`
         
-        cartProducts.insertAdjacentHTML('beforeEnd',
-                `<div class="cart__product" data-id="${prodId}">
-                    <img class="cart__product-image" src="${productImage}">
-                    <div class="cart__product-count">${prodQuant}</div>
-                </div>`
-            );
-        
-        if (cartProd) {
-            let prodCount = cartProd.querySelector('.cart__product-count').innerText;
-            prodCount = Number(prodCount) + Number(prodQuant);
-        } 
+        let cartProd = [...cartProduct].find(elem => elem.dataset.id === prodId);
+        if (cartProd === undefined) {
+            cartProducts.insertAdjacentHTML('beforeEnd', newProduct);
+        } else {
+            cartProd.querySelector('.cart__product-count').innerText = Number(cartProd.querySelector('.cart__product-count').innerText) + Number(prodQuant);
+        }
     });
 });
+
